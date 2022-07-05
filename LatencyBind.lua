@@ -1,7 +1,7 @@
 -- Change KeyBinds Through Editing The File.
 local font = draw.CreateFont( "Tahoma Bold", 15 , 100, 0x200, 0x010)
 
--- See what keybind is yours at https://lmaobox.net/lua/Lua_Constants/ in the "Buttons" category
+-- See your preferred key at https://lmaobox.net/lua/Lua_Constants/ in the "Buttons" category
 
 
 local function bind()
