@@ -1,6 +1,5 @@
--- Change KeyBinds Through Editing The File.
+-- This lua gets your Triggerbot Keybind and uses it as Anti-Aim keybind. Crazy
 local tahoma = draw.CreateFont( "Tahoma Bold", 30 , 200, 0x200, 0x010)
--- See your preferred key at https://lmaobox.net/lua/Lua_Constants/ in the "Buttons" category
 
 local function bind()
     local TriggerKey = gui.GetValue("Trigger Key")
