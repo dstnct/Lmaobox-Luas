@@ -29,13 +29,15 @@ end
 local function textDraw()
     draw.SetFont(tahoma)
     draw.Color( 255, 148, 112, 255 )
-    draw.Text( 20, 400, "Kills: " ..killCount.. "")
+    draw.Text( 20, 400, "Kills: " ..killCount)
     draw.Color( 159, 90, 253, 255 )
-    draw.Text( 20, 420, "Deaths: " ..deathCount.. "")
+    draw.Text( 20, 420, "Deaths: " ..deathCount)
     draw.Color( 3, 138, 255, 255 )
-    draw.Text( 20, 440, "Assists: " ..assistCount.. "")
+    draw.Text( 20, 440, "Assists: " ..assistCount)
     
     KDCount = killCount / deathCount
+    KDCount = math.floor(KDCount)
+    
 
         draw.Color( 0, 230, 64, 255 )
         draw.Text( 20, 460, "KD: " ..KDCount.. "")
@@ -45,10 +47,13 @@ local function textDraw()
             draw.Text( 20, 460, "KD: " ..KDCount.. "")
         end
         
-        if(KDCount >= 2.5) then
+        if(KDCount >= 3) then
             draw.Color( 175, 65, 84, 255 )
             draw.Text( 20, 460, "KD: " ..KDCount.. "")
         end
+
+    local function counterreser(event)
+    end
         
 end
 
