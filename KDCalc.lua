@@ -40,16 +40,16 @@ local function textDraw()
     
 
         draw.Color( 0, 230, 64, 255 )
-        draw.Text( 20, 460, "KD: " ..KDCount.. "")
+        draw.Text( 20, 460, "KD: " ..KDCount)
     
         if(KDCount >= 2) then
             draw.Color( 189, 155, 25, 255 )
-            draw.Text( 20, 460, "KD: " ..KDCount.. "")
+            draw.Text( 20, 460, "KD: " ..KDCount)
         end
         
         if(KDCount >= 3) then
             draw.Color( 175, 65, 84, 255 )
-            draw.Text( 20, 460, "KD: " ..KDCount.. "")
+            draw.Text( 20, 460, "KD: " ..KDCount)
         end
 
     local function counterreser(event)
