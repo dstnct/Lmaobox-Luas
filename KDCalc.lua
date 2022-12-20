@@ -58,4 +58,4 @@ local function textDraw()
 end
 
 callbacks.Register("FireGameEvent", "whenDeath", onDeath)
-callbacks.Register( "Draw", textDraw)
+callbacks.Register( "Draw", "textDraw", textDraw)
