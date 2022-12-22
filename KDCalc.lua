@@ -22,6 +22,7 @@ local function onDeath(event)
             killCount = killCount + 1
         elseif (assister:GetIndex() == localPlayer:GetIndex()) then
             assistCount = assistCount +1
+            
         end
     end
 end
@@ -34,9 +35,12 @@ local function textDraw()
     draw.Text( 20, 420, "Deaths: " ..deathCount)
     draw.Color( 3, 138, 255, 255 )
     draw.Text( 20, 440, "Assists: " ..assistCount)
-    
-    KDCount = killCount / deathCount
-    KDCount = math.floor(KDCount)
+    --/////////////////////////////////////////////////////
+    if(deathCount == 0) then
+        KDCount = killCount
+    elseif(deathCount >=0) then
+        KDCount = killCount / deathCount
+    end
     
 
         draw.Color( 0, 230, 64, 255 )
@@ -51,11 +55,8 @@ local function textDraw()
             draw.Color( 175, 65, 84, 255 )
             draw.Text( 20, 460, "KD: " ..KDCount)
         end
-
-    local function counterreser(event)
-    end
         
 end
 
 callbacks.Register("FireGameEvent", "whenDeath", onDeath)
-callbacks.Register( "Draw", "textDraw", textDraw)
+callbacks.Register( "Draw", textDraw)
