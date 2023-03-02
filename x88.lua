@@ -64,7 +64,7 @@ local function secondary()
     if globals.FrameCount() % 50 == 0 then
         current_fps = math.floor(1 / globals.FrameTime())
     end
-    if gamecoordinator.IsConnectedToMatchServer() then
+    if  engine.IsGameUIVisible() == false then
         draw.Text(270, 100, "Triggerbot: ")
 
         if (triggerbot == 1) then
