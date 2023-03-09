@@ -1,14 +1,9 @@
 --[[
-This lua script is designed to display settings on LMAOBox using its draw.text function in their lua API.
+Script written by ActiveDistinct (actv#0142)
+Bug reports, suggestions, and requests can be made through discord: actv#0142 or telegram: @ActiveDistinct
 
-  The script includes two functions, primary and secondary. The primary function renders some basic text.
-The secondary function retrieves the values of various settings and renders the corresponding text.
-
-  These settings include aimbot, aim method, aim FOV, double tap, double tap charged ticks, anti-aim, colored players,
-ESP, fake latency value, triggerbot, bunny hop, auto strafe, no hands, no scope, custom FOV, third person, and trigger shoot delay.
-
-The script was written by ActiveDistinct (actv#0142) and bug reports, suggestions, and requests can be made through discord: actv#0142 or telegram: @ActiveDistinct
-
+CURRENT VERSION: 1.0.3
+GET LATEST VERSION AT: https://github.com/dstnct/Lmaobox-Luas/blob/main/x88.lua
 
 ]]
 
@@ -16,7 +11,7 @@ The script was written by ActiveDistinct (actv#0142) and bug reports, suggestion
 local tahoma = draw.CreateFont("Tahoma Bold", 15, 590, 0x200)
 local current_fps = 0
 -- This line creates a new font object with the name "Verdana", size 30, weight 800 and flag FONTFLAG_DROPSHADOW.
-local verdana = draw.CreateFont("Verdana", 30, 800, FONTFLAG_DROPSHADOW)
+local verdana = draw.CreateFont("Verdana Bold", 25, 800, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW)
 
 -- The primary function defines text and sets its position and color.
 -- It first sets the font to the "tahoma" font object and the color to yellow.
@@ -30,14 +25,9 @@ local function primary()
     draw.Text(390, 25, "FrameRate  " .. current_fps .. "")
 end
 
---[[ 
 
-The secondary function retrieves the values of various settings and renders the corresponding text.
--It sets the font to the "tahoma" font object and the color to white.
-then retrieves the value of "current_fps" and updates it if 50 frames have passed since the last update.
-afterwards checks whether the game coordinator is connected to a match server and if so, renders the text for various settings.
 
-]]
+--retrieving  the values of various settings and renders the corresponding text.
 local function secondary()
     local aimbot = gui.GetValue("aim bot")
     local aimbotMethod = gui.GetValue("aim method")
@@ -58,13 +48,15 @@ local function secondary()
     local fovvalue = gui.GetValue("custom fov value")
     local thirdperson = gui.GetValue("thirdperson")
     local triggerdel = gui.GetValue("trigger shoot delay (ms)")
+    local player = entities.GetLocalPlayer()
+    local wpn = player:GetPropEntity("m_hActiveWeapon")
 
     draw.SetFont(tahoma)
     draw.Color(255, 255, 255, 255)
     if globals.FrameCount() % 50 == 0 then
         current_fps = math.floor(1 / globals.FrameTime())
     end
-    if  engine.IsGameUIVisible() == false then
+    if  engine.IsGameUIVisible() == false  then
         draw.Text(270, 100, "Triggerbot: ")
 
         if (triggerbot == 1) then
@@ -232,30 +224,61 @@ local function secondary()
             draw.Text(500, 70, "OFF")
         end
 
+-- crazy dt indicator code
+
         if (dtTicks >= 20) then
             draw.SetFont(verdana)
-            draw.Color(0, 255, 0, 255)
-            draw.Text(10, 1000, "DT")
+            draw.Color(119, 255, 0, 255)
+            draw.Text(10, 900, "DT")
         else
             draw.SetFont(verdana)
             if (dtTicks < 5) then
-                draw.Color(255, 0, 0, 255)
-                draw.Text(10, 1000, "DT")
+                draw.Color(255, 71, 71, 255)
+                draw.Text(10, 900, "DT")
+                draw.Color(150, 150, 150, 255)
+                draw.Text(45, 900, " "..dtTicks)
             else
-                draw.Color(255, 0, 0, 255)
-                draw.Text(10, 1000, "DT")
+                draw.Color(255, 71, 71, 255)
+                draw.Text(10, 900, "DT")
+                draw.Color(150, 150, 150, 255)
+                draw.Text(45, 900, " ".. dtTicks)
             end
         end
     else
         return
+    end -- end of crazy dt indicator code
+
+-- crazy crithax calculations (yeeted from lbox lua examples heheheha)
+
+if wpn ~= nil then
+    local critChance = wpn:GetCritChance()
+    local dmgStats = wpn:GetWeaponDamageStats()
+    local totalDmg = dmgStats["total"]
+    local criticalDmg = dmgStats["critical"]
+    
+    local ScrW, ScrH = draw.GetScreenSize()
+    local MidW = ScrW / 2
+    local MidH = ScrH / 2
+
+    local cmpCritChance = critChance + 0.1
+
+    -- if we crit
+    if cmpCritChance > wpn:CalcObservedCritChance() then
+        draw.SetFont(verdana)
+        draw.Color(119, 255, 0, 255)
+        draw.Text(10, 875, "CRIT")
+    else -- no crits?
+        local requiredTotalDamage = (criticalDmg * (2.0 * cmpCritChance + 1.0)) / cmpCritChance / 3.0
+        local requiredDamage = requiredTotalDamage - totalDmg
+        draw.Color(255, 0, 0, 255)
+        draw.Text(10, 875, "CRIT")
+        draw.Color(240, 240, 240, 255)
+        draw.Text(70, 875, " "..math.floor(requiredDamage))
     end
-end -- This marks the end of the secondary function
+end -- end of crithax calculations
+end -- end of secondary function
 
 
--- Registering a function named "primary" to be called during the Draw event
+
 callbacks.Register("Draw", primary)
---[[ 
-Registering a function named "secondary" to be called during the Draw event, 
-and assigning the name "draw" to this registration for later use in other parts of the code
-]]
 callbacks.Register("Draw", "draw", secondary)
