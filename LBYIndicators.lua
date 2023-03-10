@@ -6,7 +6,7 @@ callbacks.Register( "Draw", function ()
     draw.SetFont( verdana )
 
     local player = entities.GetLocalPlayer()
-if  engine.IsGameUIVisible() == false  then
+if  engine.IsGameUIVisible() == false  then -- this prevents console spam while in main menu and in-game
     local wpn = player:GetPropEntity("m_hActiveWeapon")
     local dtTicks = warp.GetChargedTicks()
 
@@ -35,7 +35,7 @@ if  engine.IsGameUIVisible() == false  then
         end
     else return end
 
-    if wpn ~= nil then
+    if wpn ~= nil then -- this is yeeted from lbox lua website (idk who made this so cant credit, will do when i find out)
         local critChance = wpn:GetCritChance()
         local dmgStats = wpn:GetWeaponDamageStats()
         local totalDmg = dmgStats["total"]
