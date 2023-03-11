@@ -1,3 +1,5 @@
+-- Lua made by ActiveDistinct (actv#0142)
+
 local verdana = draw.CreateFont( "Verdana Bold", 25, 800, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW)
 
 
@@ -8,14 +10,14 @@ callbacks.Register( "Draw", function ()
     local player = entities.GetLocalPlayer()
 if  engine.IsGameUIVisible() == false  then -- this prevents console spam while in main menu and in-game
     local wpn = player:GetPropEntity("m_hActiveWeapon")
-    local dtTicks = warp.GetChargedTicks()
+    local dtTicks = warp.GetChargedTicks() -- GetChargedTicks() accounts for both Doubletap and Warp :O
 
     local ScrW, ScrH = draw.GetScreenSize()
     local MidW = ScrW / 2
     local MidH = ScrH / 2
 
     if player.IsAlive(player) then
-        if (dtTicks >= 20) then
+        if (dtTicks >= 20) then -- Very poor tick calculation but it does the job
             draw.SetFont(verdana)
             draw.Color(119, 255, 0, 255)
             draw.Text(MidW -950 , MidH + 355, "TICK")
