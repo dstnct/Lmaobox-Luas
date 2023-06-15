@@ -1,7 +1,3 @@
-
--- onDeath function credit: Derser (Habnone)
--- TODO: Make the Kill,Death,Assist and KD Counters reset to 0 when the player changed maps
-
 local tahoma = draw.CreateFont( "Tahoma Bold", 16 , 200, 0x200, 0x010)
 local killCount = 0;
 local deathCount = 0;
@@ -9,11 +5,19 @@ local assistCount = 0;
 local KDCount = 0;
 local str = KDCount
 
+local player = entities.GetLocalPlayer()
+
+local ScrW, ScrH = draw.GetScreenSize()
+local MidW = ScrW / 2
+local MidH = ScrH / 2
+
+
+
 
 previousIp = engine.GetServerIP()
 previousMap = engine.GetMapName()
 
-local function onDeath(event)
+local function onDeath(event) -- credits: Derser (Habnone)
 
     if (event:GetName() == 'player_death' ) then
 
@@ -23,6 +27,7 @@ local function onDeath(event)
         local assister = entities.GetByUserID( event:GetInt("assister"))
 
         if (localPlayer:GetIndex() == userid:GetIndex()) then
+            if(localPlayer:InCond(13)) then return end -- dont do anything if you have deadrang
             deathCount = deathCount + 1
             if(localPlayer:InCond(13) ) then
                 deathCount = deathCount - 1
@@ -68,7 +73,7 @@ local function textDraw()
         str = string.format("%.2f",KDCount) --thnx lnx
     end
 
-        draw.Color( 0, 230, 64, 255 )
+        draw.Color( 126, 227, 59, 255 )
         draw.Text( 80, 460, str)
     
         if(KDCount >= 2) then
@@ -102,6 +107,28 @@ local function textDraw()
         end
         previousMap = currentMap
         previousIP = currentIP
+    if( engine.IsGameUIVisible() == false )  then
+
+        if(player:InCond(29) ) then
+            draw.SetFont(tahoma)
+            draw.Color(240, 240, 240, 255)
+            draw.Text(MidW -45 , MidH +20, "- RAGE BUFF -")
+
+        else end
+
+        if (player:IsCritBoosted() ) then -- Checks whether you're crit-boosted or speed-buffed and renders the appropriate text.
+            draw.SetFont(tahoma)
+            draw.Color(240, 240, 240, 255)
+            draw.Text(MidW -45 , MidH +20, "CRIT BOOST")
+        else end -- if not crit-boosted dont do anything
+
+        if(player:InCond( 17 ) ) then
+            draw.SetFont(tahoma)
+            draw.Color(240, 240, 240, 255)
+            draw.Text(MidW -45 , MidH +20, "CHARGING")
+        else end
+    
+    end
 end
 print(math.floor(KDCount+0.5))
 callbacks.Register("FireGameEvent", "whenDeath", onDeath)
