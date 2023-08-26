@@ -13,8 +13,6 @@ end
 -- edit the numbers to change the colours, the format is (RED, GREEN, BLUE, ALPHA)
 menublu = rgbaToHex(149,199,254,255)
 menured = rgbaToHex(254,99,158,255)
-red = rgbaToHex(241,73,117,255)
-blu = rgbaToHex(149,199,254,255)
 
 local function colors(Draw)
     if engine.IsGameUIVisible() == false then
