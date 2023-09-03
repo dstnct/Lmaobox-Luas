@@ -1,5 +1,7 @@
 --[[
-    Credits to @flashintv + @Terminatormachine for helping me
+    Credits to:
+    @flashintv + @Terminatormachine for helping me
+    @10trips for adding proper item names
 ]]
 
 local font = draw.CreateFont("Tahoma", -11, 500, FONTFLAG_OUTLINE | FONTFLAG_CUSTOM)
@@ -19,7 +21,7 @@ local function onDraw()
                 percentageValue = math.floor(uber * 100)
                 draw.SetFont(font)
                 draw.Color(255, 255, 255, 255)
-                draw.Text(10*8, 115, "Team Ubercharge Info")
+                draw.Text(10*12, 115, "Team Ubercharge Info")
 
                 if(percentageValue == 0.0) then
                     draw.Color(170, 170, 170, 255) -- white
@@ -32,12 +34,13 @@ local function onDraw()
                     draw.Color(255, 0, 0, 255) -- red
                 end
                 draw.Text(20, 130+(lineoffset*15), entity:GetName())
-                draw.Text(22*10, 130+(lineoffset*15),percentageValue.."%")
+                draw.Text(20*9, 130+(lineoffset*15), medigun:ToInventoryItem():GetName())
+                draw.Text(22*14, 130+(lineoffset*15),percentageValue.."%")
                 lineoffset = lineoffset + 1
             end
         end
         draw.Color(0, 0, 0, 100)
-        draw.FilledRect( 5 + (lineoffset), 110 + (lineoffset), 24*9 +(lineoffset*15), 140 + (lineoffset*15))
+        draw.FilledRect( 5 + (lineoffset), 110 + (lineoffset), 24*13 +(lineoffset*15), 140 + (lineoffset*15))
     else return end
 end
 
